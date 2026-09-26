@@ -4,12 +4,12 @@ const App = () => {
   return (
     <div className="site-shell">
       <header className="site-header">
-        <a className="brand" href="#home" aria-label="Cover Estimate home">
+        <a className="brand" href="#home" aria-label="Akrio CoverEstimate home">
           <span className="brand-mark" aria-hidden="true">
             +
           </span>
           <span>
-            cover<span className="brand-light">estimate</span>
+            Akrio <span className="brand-light">CoverEstimate</span>
           </span>
         </a>
         <nav className="main-nav" aria-label="Main navigation">
@@ -211,7 +211,7 @@ const App = () => {
             +
           </span>
           <span>
-            cover<span className="brand-light">estimate</span>
+            Akrio <span className="brand-light">CoverEstimate</span>
           </span>
         </a>
         <p>
