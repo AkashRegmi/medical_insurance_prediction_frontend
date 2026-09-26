@@ -14,6 +14,7 @@ const InsuranceForm = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<InsuranceFormInput, unknown, InsuranceFormData>({
     resolver: zodResolver(insuranceSchema),
@@ -45,137 +46,83 @@ const InsuranceForm = () => {
     predict(data);
   };
   return (
-    <div className="w-full max-w-2xl rounded-2xl bg-white p-6 shadow-xl sm:p-8">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900">
-          Insurance Predictor
-        </h1>
-
-        <p className="mt-2 text-slate-500">
-          Enter your details to estimate your insurance charges.
-        </p>
+    <div className="insurance-form-panel">
+      <div className="form-intro">
+        <span className="form-step">YOUR DETAILS</span>
+        <h3>Tell us a little about yourself</h3>
+        <p>Your information is used to generate this estimate.</p>
       </div>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="grid grid-cols-1 gap-5 sm:grid-cols-2"
-      >
-        <div>
-          <label
-            htmlFor="age"
-            className="mb-2 block text-sm font-medium text-slate-700"
-          >
-            Age
-          </label>
+      <form onSubmit={handleSubmit(onSubmit)} className="insurance-form-grid">
+        <div className="form-field">
+          <label htmlFor="age">Age</label>
 
           <input
             id="age"
             type="number"
+            min="18"
+            max="100"
             {...register("age", { valueAsNumber: true })}
-            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
           />
 
-          {errors.age && (
-            <p className="mt-1 text-sm text-red-500">{errors.age.message}</p>
-          )}
+          {errors.age && <p className="field-error">{errors.age.message}</p>}
         </div>
-        <div>
-          <label
-            htmlFor="sex"
-            className="mb-2 block text-sm font-medium text-slate-700"
-          >
-            Sex
-          </label>
+        <div className="form-field">
+          <label htmlFor="sex">Sex</label>
 
-          <select
-            id="sex"
-            {...register("sex")}
-            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          >
+          <select id="sex" {...register("sex")}>
             <option value="male">Male</option>
             <option value="female">Female</option>
           </select>
 
-          {errors.sex && (
-            <p className="mt-1 text-sm text-red-500">{errors.sex.message}</p>
-          )}
+          {errors.sex && <p className="field-error">{errors.sex.message}</p>}
         </div>
-        <div>
-          <label
-            htmlFor="bmi"
-            className="mb-2 block text-sm font-medium text-slate-700"
-          >
-            BMI
-          </label>
+        <div className="form-field">
+          <label htmlFor="bmi">BMI</label>
 
           <input
             id="bmi"
             type="number"
             step="0.1"
+            min="10"
+            max="60"
             {...register("bmi", { valueAsNumber: true })}
-            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
           />
 
-          {errors.bmi && (
-            <p className="mt-1 text-sm text-red-500">{errors.bmi.message}</p>
-          )}
+          {errors.bmi && <p className="field-error">{errors.bmi.message}</p>}
         </div>
-        <div>
-          <label
-            htmlFor="children"
-            className="mb-2 block text-sm font-medium text-slate-700"
-          >
-            Number of Children
-          </label>
+        <div className="form-field">
+          <label htmlFor="children">Number of Children</label>
 
           <input
             id="children"
             type="number"
+            min="0"
+            max="7"
             {...register("children", {
               valueAsNumber: true,
             })}
-            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
           />
 
           {errors.children && (
-            <p className="mt-1 text-sm text-red-500">
-              {errors.children.message}
-            </p>
+            <p className="field-error">{errors.children.message}</p>
           )}
         </div>
-        <div>
-          <label
-            htmlFor="smoker"
-            className="mb-2 block text-sm font-medium text-slate-700"
-          >
-            Smoker
-          </label>
+        <div className="form-field">
+          <label htmlFor="smoker">Tobacco use</label>
 
-          <select
-            id="smoker"
-            {...register("smoker")}
-            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          >
+          <select id="smoker" {...register("smoker")}>
             <option value="no">No</option>
             <option value="yes">Yes</option>
           </select>
 
           {errors.smoker && (
-            <p className="mt-1 text-sm text-red-500">{errors.smoker.message}</p>
+            <p className="field-error">{errors.smoker.message}</p>
           )}
-        </div>{" "}
-        <div>
-          <label
-            htmlFor="region"
-            className="mb-2 block text-sm font-medium text-slate-700"
-          >
-            Region
-          </label>
+        </div>
+        <div className="form-field">
+          <label htmlFor="region">Region</label>
 
-          <select
-            id="region"
-            {...register("region")}
-            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          >
+          <select id="region" {...register("region")}>
             <option value="southwest">Southwest</option>
             <option value="southeast">Southeast</option>
             <option value="northwest">Northwest</option>
@@ -183,40 +130,65 @@ const InsuranceForm = () => {
           </select>
 
           {errors.region && (
-            <p className="mt-1 text-sm text-red-500">{errors.region.message}</p>
+            <p className="field-error">{errors.region.message}</p>
           )}
         </div>
-        <div className="sm:col-span-2">
-          <button
-            type="submit"
-            disabled={isPending}
-            className="w-full rounded-lg bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isPending ? "Calculating..." : "Predict Insurance Charge"}
+        <div className="form-submit">
+          <button type="submit" disabled={isPending}>
+            {isPending ? "Preparing your estimate..." : "Estimate my cost"}
+            {!isPending && <span aria-hidden="true">&rarr;</span>}
           </button>
         </div>
       </form>
       {isError && (
-        <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-600">
-          {error instanceof Error
-            ? error.message
-            : "Unable to get prediction. Please make sure the FastAPI server is running."}
-        </div>
-      )}{" "}
-      {prediction !== null && (
-        <div className="mt-6 rounded-xl border border-blue-100 bg-blue-50 p-6 text-center">
-          <p className="text-sm font-medium text-slate-600">
-            Estimated Insurance Charge
+        <div className="form-error" role="alert">
+          <strong>We couldn’t create an estimate just now.</strong>
+          <p>
+            {error instanceof Error
+              ? error.message
+              : "Please try again in a moment."}
           </p>
-
-          <h2 className="mt-2 text-4xl font-bold text-blue-600">
+        </div>
+      )}
+      {prediction !== null && (
+        <section
+          className="estimate-result"
+          aria-live="polite"
+          aria-labelledby="result-title"
+        >
+          <div className="result-label">
+            <span className="result-check" aria-hidden="true">
+              &#10003;
+            </span>{" "}
+            YOUR ESTIMATE IS READY
+          </div>
+          <h3 id="result-title">Estimated insurance cost</h3>
+          <p className="result-amount">
             $
             {prediction.toLocaleString("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}
-          </h2>
-        </div>
+          </p>
+          <p className="result-explanation">
+            This estimate reflects patterns in historical data and the details
+            you provided. It is a starting point for learning, not a quote or a
+            guaranteed price.
+          </p>
+          <p className="result-disclaimer">
+            Actual costs can vary based on factors this model does not include.
+          </p>
+          <button
+            type="button"
+            className="try-again-button"
+            onClick={() => {
+              setPrediction(null);
+              reset();
+            }}
+          >
+            Try another estimate <span aria-hidden="true">&rarr;</span>
+          </button>
+        </section>
       )}
     </div>
   );
